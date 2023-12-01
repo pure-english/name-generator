@@ -1,16 +1,4 @@
 <template>
-  <!-- 
-    Frozen: 11
-​
-    Lastname: 599
-  ​
-    Living: 215
-    ​
-    Quickened: 2059
-    ​
-    Unfounded: 59
-  -->
-
   <div class="container mx-auto">
     <div class="prose">
       <h1 class="grow my-5">Anglish Name Generator</h1>
@@ -87,53 +75,54 @@
             <th>{{ index + 1 }}</th>
 
             <!-- English Name -->
-            <td v-if="lastNamesUsedOnly">
+            <td v-if="lastNamesUsedOnly() && namePair.length > 1">
               <b>{{ namePair[1].english_name ?? "" }}</b>
             </td>
-            <td v-else-if="lastNamesUsed">
-              <b>{{ namePair[0].english_name }} {{ namePair[1].english_name ?? "" }}</b>
+            <td v-else-if="lastNamesUsed && namePair.length > 1">
+              {{ console.log(`namePair == ${JSON.stringify(namePair)}`) }}
+              <b>{{ namePair[0].english_name ?? "" }} {{ namePair[1].english_name ?? "" }}</b>
             </td>
-            <td v-else>
-              <b>{{ namePair[0].english_name }}</b>
+            <td v-else-if="namePair.length > 0">
+              <b>{{ namePair[0].english_name ?? "" }}</b>
             </td>
 
             <!-- Anglish Name -->
-            <td v-if="lastNamesUsedOnly">
+            <td v-if="lastNamesUsedOnly() && namePair.length > 1">
               <b>{{ namePair[1].anglish_name ?? "" }}</b>
             </td>
-            <td v-else-if="lastNamesUsed">
-              <b>{{ namePair[0].anglish_name }} {{ namePair[1].anglish_name ?? "" }}</b>
+            <td v-else-if="lastNamesUsed && namePair.length > 1">
+              <b>{{ namePair[0].anglish_name ?? "" }} {{ namePair[1].anglish_name ?? "" }}</b>
             </td>
-            <td v-else>
-              <b>{{ namePair[0].anglish_name }}</b>
+            <td v-else-if="namePair.length > 0">
+              <b>{{ namePair[0].anglish_name ?? "" }}</b>
             </td>
 
             <!-- Gender -->
             <td>
               <p>
-                <span v-if="namePair.length > 0">{{ namePair[0].english_name }}: {{ namePair[0].kind }}</span><br/>
-                <span v-if="namePair.length > 1">{{ namePair[1].english_name }}: {{ namePair[1].kind }}</span>
+                <span v-if="namePair.length > 0">{{ namePair[0].english_name ?? "" }}: {{ namePair[0].kind ?? "" }}</span><br/>
+                <span v-if="namePair.length > 1">{{ namePair[1].english_name ?? "" }}: {{ namePair[1].kind ?? "" }}</span>
               </p>
             </td>
 
             <!-- Whence -->
             <td>
               <p>
-                <span v-if="namePair.length > 0">{{ namePair[0].whence }}</span><br/>
+                <span v-if="namePair.length > 0">{{ namePair[0].whence ?? "" }}</span><br/>
                 <!-- <span v-if="namePair.length > 1">{{ namePair[1].english_name }}: {{ namePair[1].whence }}</span> -->
               </p>
             </td>
 
             <td>
               <p v-if="namePair.length > 1">
-                {{ namePair[0].forebear }} ({{ namePair[0].foreword + " + " + namePair[0].afterword }})<br/>
-                {{ namePair[1].forebear }} ({{ namePair[1].foreword + " + " + namePair[1].afterword }})
+                {{ namePair[0].forebear ?? "" }} ({{ namePair[0].foreword ?? "" + " + " + namePair[0].afterword ?? "" }})<br/>
+                {{ namePair[1].forebear ?? "" }} ({{ namePair[1].foreword ?? "" + " + " + namePair[1].afterword ?? "" }})
               </p>
               <p v-else-if="namePair.length > 0 && namePair[0].afterword">
-                {{ namePair[0].forebear }} ({{ namePair[0].foreword + " + " + namePair[0].afterword}})
+                {{ namePair[0].forebear ?? "" }} ({{ namePair[0].foreword ?? "" + " + " + namePair[0].afterword ?? "" }})
               </p>
               <p v-else-if="namePair.length > 0">
-                {{ namePair[0].forebear }} ({{ namePair[0].foreword}})
+                {{ namePair[0].forebear ?? "" }} ({{ namePair[0].foreword ?? "" }})
               </p>
             </td>
 
@@ -151,11 +140,11 @@
                   <p>content</p>
                 </div>
               </details> -->
-              <b>{{ namePair[0].english_name }}</b>
-              <p>{{ namePair[0].background }}</p><br/>
+              <b>{{ namePair[0].english_name ?? "" }}</b>
+              <p>{{ namePair[0].background ?? "" }}</p><br/>
 
-              <b>{{ namePair[1].english_name }}</b>
-              <p>{{ namePair[1].background }}</p>
+              <b>{{ namePair[1].english_name ?? "" }}</b>
+              <p>{{ namePair[1].background ?? "" }}</p>
             </td>
           </tr>
         </tbody>
@@ -169,7 +158,6 @@ import { ref, type ComputedRef, type Ref, computed } from 'vue';
 
 let names: Ref<NamesDict> = ref({});
 let generatedNamesTable: Ref<NameEntry[][]> = ref([]);
-let filteredNamesTable: Ref<NameEntry[][]> = ref([]);
 
 interface NameEntry {
   "english_name": string,
@@ -200,12 +188,17 @@ getNames();
 
 let livingNamesUsed: Ref<boolean> = ref(true);
 let lastNamesUsed: Ref<boolean> = ref(true);
-let lastNamesUsedOnly: ComputedRef = computed(() => {
-  return lastNamesUsed && (!livingNamesUsed && !quickenedNamesUsed && !frozenNamesUsed && !unfoundedNamesUsed);
-});
 let quickenedNamesUsed: Ref<boolean> = ref(true);
 let frozenNamesUsed: Ref<boolean> = ref(false);
 let unfoundedNamesUsed: Ref<boolean> = ref(false);
+
+// let lastNamesUsedOnly: ComputedRef<boolean> = computed(() => {
+//   return lastNamesUsed && (!livingNamesUsed && !quickenedNamesUsed && !frozenNamesUsed && !unfoundedNamesUsed);
+// });
+
+function lastNamesUsedOnly(): boolean {
+  return lastNamesUsed && (!livingNamesUsed && !quickenedNamesUsed && !frozenNamesUsed && !unfoundedNamesUsed);
+}
 
 let sex: Ref<number> = ref(0);
 let namesToGenerate: Ref<number> = ref(1);
@@ -312,7 +305,7 @@ function generateNames() {
 
   // If male or female or unisex etc
 
-  const zippedNames = firstNames.map((left, idx) => [left, lastNames[idx]]);
+  const zippedNames = firstNames.map((left, idx) => [left ?? "", lastNames[idx]]);
 
   // console.log(zippedNames);
   // console.log(`typeof zipped is ${typeof zippedNames}`)
