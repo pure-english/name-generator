@@ -1,6 +1,8 @@
 name: Build Vue
 
-on: [push]
+on:
+  push:
+    branches: ["main"]
 
 permissions:
   actions: write
@@ -38,8 +40,8 @@ jobs:
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v3
-      - name: Move items to dist
-        run: cp anglish_given_names.json ./dist/
+      # - name: Move items to dist
+      #   run: cp anglish_given_names.json ./dist/
       - name: Build CSS
         run: npx tailwindcss -i ./src/input.css -o ./dist/output.css
       - name: Upload artifact
