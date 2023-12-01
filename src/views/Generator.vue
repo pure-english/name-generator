@@ -58,8 +58,8 @@
         <thead>
           <tr>
             <th></th>
-            <th>English Name</th>
-            <th>Anglish Name</th>
+            <th>Name (English/Anglish)</th>
+            <!-- <th>Anglish Name</th> -->
             <th>Gender</th>
             <th>Whence</th>
             <th>Etymology</th>
@@ -76,18 +76,21 @@
 
             <!-- English Name -->
             <td v-if="lastNamesUsedOnly() && namePair.length > 1">
-              <b>{{ namePair[1].english_name ?? "" }}</b>
+              <b>{{ namePair[1].english_name ?? "" }}</b><br/>
+              <b>{{ namePair[1].anglish_name ?? "" }}</b>
             </td>
             <td v-else-if="lastNamesUsed && namePair.length > 1">
-              {{ console.log(`namePair == ${JSON.stringify(namePair)}`) }}
-              <b>{{ namePair[0].english_name ?? "" }} {{ namePair[1].english_name ?? "" }}</b>
+              <!-- {{ console.log(`namePair == ${JSON.stringify(namePair)}`) }} -->
+              <b>{{ namePair[0].english_name ?? "" }} {{ namePair[1].english_name ?? "" }}</b><br/>
+              <b>{{ namePair[0].anglish_name ?? "" }} {{ namePair[1].anglish_name ?? "" }}</b>
             </td>
             <td v-else-if="namePair.length > 0">
-              <b>{{ namePair[0].english_name ?? "" }}</b>
+              <b>{{ namePair[0].english_name ?? "" }}</b><br/>
+              <b>{{ namePair[0].anglish_name ?? "" }}</b>
             </td>
 
             <!-- Anglish Name -->
-            <td v-if="lastNamesUsedOnly() && namePair.length > 1">
+            <!-- <td v-if="lastNamesUsedOnly() && namePair.length > 1">
               <b>{{ namePair[1].anglish_name ?? "" }}</b>
             </td>
             <td v-else-if="lastNamesUsed && namePair.length > 1">
@@ -95,7 +98,7 @@
             </td>
             <td v-else-if="namePair.length > 0">
               <b>{{ namePair[0].anglish_name ?? "" }}</b>
-            </td>
+            </td> -->
 
             <!-- Gender -->
             <td>
