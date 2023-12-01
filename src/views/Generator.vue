@@ -80,7 +80,7 @@
         </thead>
         <tbody>
           <!-- row 1 -->
-          <tr v-for="(namePair, index) in generatedNamesTable">
+          <tr v-for="(namePair, index) in generatedNamesTable" class="hover">
             <!-- {{ console.log(`index = ${index}`) }} -->
             
             <!-- Index -->
@@ -137,7 +137,7 @@
               </p>
             </td>
 
-            <td>
+            <td style="max-width: 390px;">
               <!-- <details class="collapse collapse-arrow bg-base-200">
                 <summary class="collapse-title text-l font-small">{{ namePair[0].english_name }}</summary>
                 <div class="collapse-content"> 
