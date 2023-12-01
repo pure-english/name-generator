@@ -126,7 +126,7 @@ interface NamesDict {
 }
 
 async function getNames() {
-  const res = await fetch("/anglish_given_names.json");
+  const res = await fetch("/name-generator/anglish_given_names.json");
   await res.json().then((data: NamesDict) => {
     names.value = data;
     console.log("Loaded names!");
