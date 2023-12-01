@@ -59,7 +59,7 @@
       </form>
     </div>
 
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto" v-if="generatedBefore">
       <table class="table table-pin-cols">
         <!-- head -->
         <thead>
@@ -204,6 +204,7 @@ import { ref, type Ref } from 'vue';
 
 let names: Ref<NamesDict> = ref({});
 let generatedNamesTable: Ref<NameEntry[][]> = ref([]);
+let generatedBefore: Ref<boolean> = ref(false);
 
 interface NameEntry {
   "english_name": string,
@@ -345,6 +346,10 @@ function generateLastName(num: number) {
 }
 
 function generateNames() {
+  if (!generatedBefore.value) {
+    generatedBefore.value = true;
+  }
+
   const numberOfNames = namesToGenerate.value;
   console.log(`Generating ${numberOfNames} names…`);
 
