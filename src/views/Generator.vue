@@ -8,7 +8,7 @@
   <div class="container mx-auto">
     <div class="prose">
       <h1 class="grow my-5">Anglish Name Generator</h1>
-      <sub class="grow"><center>v1.3.5 (2023-12-01)</center></sub>
+      <sub class="grow"><center>v1.3.6 (2023-12-01)</center></sub>
     </div>
 
     <div class="content-stretch mt-8" style="max-width: 20%; min-width: 265px;">
