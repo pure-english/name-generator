@@ -95,8 +95,7 @@
             </td>
             <td v-else-if="namePair.length > 0">
               <b>{{ namePair[0].english_name ?? "" }}</b><br/>
-              <b v-if="namePair[0].english_name != namePair[0].anglish_name ||
-              namePair[1].english_name != namePair[1].anglish_name">
+              <b v-if="namePair[0].english_name != namePair[0].anglish_name">
                 {{ namePair[0].anglish_name ?? "" }}
               </b>
             </td>
@@ -141,8 +140,15 @@
 
             <td>
               <p v-if="namePair.length > 1">
+                <!-- {{ console.log(`namePair = ${JSON.stringify(namePair)}`) }} -->
+                <!-- 
+                  namePair =
+                  [{ENTRY},null]
+                -->
                 {{ (namePair[0].forebear ?? "") }} ({{ (namePair[0].foreword ?? "") + " + " + (namePair[0].afterword ?? "") }})<br/>
-                {{ (namePair[1].forebear ?? "") }} ({{ (namePair[1].foreword ?? "") + " + " + (namePair[1].afterword ?? "") }})
+                <span v-if="namePair[1] != null">
+                  {{ (namePair[1].forebear ?? "") }} ({{ (namePair[1].foreword ?? "") + " + " + (namePair[1].afterword ?? "") }})
+                </span>
               </p>
               <p v-else-if="namePair.length > 0 && namePair[0].afterword">
                 {{ namePair[0].forebear ?? "" }} ({{ (namePair[0].foreword ?? "") + " + " + (namePair[0].afterword ?? "") }})
@@ -170,8 +176,8 @@
               <b>{{ namePair[0].english_name ?? "" }}</b>
               <p>{{ namePair[0].background ?? "" }}</p><br/>
 
-              <b>{{ namePair[1].english_name ?? "" }}</b>
-              <p>{{ namePair[1].background ?? "" }}</p>
+              <b v-if="namePair[1]">{{ namePair[1].english_name ?? "" }}</b>
+              <p v-if="namePair[1]">{{ namePair[1].background ?? "" }}</p>
             </td>
           </tr>
         </tbody>
