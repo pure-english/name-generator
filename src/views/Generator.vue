@@ -11,100 +11,161 @@
     Unfounded: 59
   -->
 
-  <div class="prose">
-    <h1 class="grow">Anglish Name Generator</h1>
-  </div>
+  <div class="container mx-auto">
+    <div class="prose">
+      <h1 class="grow my-5">Anglish Name Generator</h1>
+    </div>
 
-  <div class="flex center">
-    <form>
-      <label class="label cursor-pointer">
-        <span class="label-text">Living names (215)</span>
-        <input type="checkbox" class="checkbox" v-model="livingNamesUsed">
-      </label>
+    <div class="content-stretch" style="max-width: 20%; min-width: 265px;">
+      <form>
+        <label class="label cursor-pointer">
+          <span class="label-text">Living names (215)</span>
+          <input type="checkbox" class="checkbox" v-model="livingNamesUsed">
+        </label>
 
-      <label class="label cursor-pointer">
-        <span class="label-text">Last names (599)</span>
-        <input type="checkbox" class="checkbox" v-model="lastNamesUsed">
-      </label>
+        <label class="label cursor-pointer">
+          <span class="label-text">Last names (599)</span>
+          <input type="checkbox" class="checkbox" v-model="lastNamesUsed">
+        </label>
 
-      <label class="label cursor-pointer">
-        <span class="label-text">Quickened/Revived names (2059)</span>
-        <input type="checkbox" class="checkbox" v-model="quickenedNamesUsed">
-      </label>
+        <label class="label cursor-pointer">
+          <span class="label-text">Quickened/Revived names (2059)</span>
+          <input type="checkbox" class="checkbox" v-model="quickenedNamesUsed">
+        </label>
 
-      <label class="label cursor-pointer">
-        <span class="label-text">Frozen/Old English names (11)</span>
-        <input type="checkbox" class="checkbox" v-model="frozenNamesUsed">
-      </label>
+        <label class="label cursor-pointer">
+          <span class="label-text">Frozen/Old English names (11)</span>
+          <input type="checkbox" class="checkbox" v-model="frozenNamesUsed">
+        </label>
 
-      <label class="label cursor-pointer">
-        <span class="label-text">Unfounded/Germanic names (59)</span>
-        <input type="checkbox" class="checkbox" v-model="unfoundedNamesUsed">
-      </label>
+        <label class="label cursor-pointer">
+          <span class="label-text">Unfounded/Germanic names (59)</span>
+          <input type="checkbox" class="checkbox" v-model="unfoundedNamesUsed">
+        </label>
 
-      <input type="range" min="0" max="3" value="0" class="range mt-5" step="1" v-model="sex"/>
-      <div class="w-full flex justify-between text-xs px-2">
-        <span>Any</span>
-        <span>Unisex</span>
-        <span>Male</span>
-        <span>Female</span>
-      </div>
-
-      <label class="form-control w-full max-w-xs my-5">
-        <div class="label">
-          <span class="label-text">Number of names to generate</span>
+        <input type="range" min="0" max="3" value="0" class="range mt-5" step="1" v-model="sex"/>
+        <div class="w-full flex justify-between text-xs px-2">
+          <span>Any</span>
+          <span>Unisex</span>
+          <span>Male</span>
+          <span>Female</span>
         </div>
-        <input type="text" placeholder="Number of names" class="input input-bordered w-full max-w-xs" v-model="namesToGenerate"/>
-      </label>
 
-      <button class="btn btn-active btn-primary mb-5" @click="generateNames" type="button">
-        Generate Names
-      </button>
-    </form>
-  </div>
+        <label class="form-control w-full max-w-xs my-5">
+          <div class="label">
+            <span class="label-text">Number of names to generate</span>
+          </div>
+          <input type="text" placeholder="Number of names" class="input input-bordered w-full max-w-xs" v-model="namesToGenerate"/>
+        </label>
 
-  <div class="overflow-x-auto">
-    <table class="table table-pin-cols">
-      <!-- head -->
-      <thead>
-        <tr>
-          <th></th>
-          <th>English Name</th>
-          <th>Anglish Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- row 1 -->
-        <tr v-for="(namePair, index) in generatedNamesTable">
-          <!-- {{ console.log(`index = ${index}`) }} -->
-          <th>{{ index + 1 }}</th>
-          <td v-if="lastNamesUsed && (!livingNamesUsed && !quickenedNamesUsed && !frozenNamesUsed && !unfoundedNamesUsed)">
-            {{ namePair[1].english_name }}
-          </td>
-          <td v-else-if="lastNamesUsed">
-            {{ namePair[0].english_name }} {{ namePair[1].english_name }}
-          </td>
-          <td v-else>
-            {{ namePair[0].english_name }}
-          </td>
+        <button class="btn btn-active btn-primary mb-5" @click="generateNames" type="button">
+          Generate Names
+        </button>
+      </form>
+    </div>
 
-          <td v-if="lastNamesUsed && (!livingNamesUsed && !quickenedNamesUsed && !frozenNamesUsed && !unfoundedNamesUsed)">
-            {{ namePair[1].anglish_name }}
-          </td>
-          <td v-else-if="lastNamesUsed">
-            {{ namePair[0].anglish_name }} {{ namePair[1].anglish_name }}
-          </td>
-          <td v-else>
-            {{ namePair[0].anglish_name }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="overflow-x-auto">
+      <table class="table table-pin-cols">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th></th>
+            <th>English Name</th>
+            <th>Anglish Name</th>
+            <th>Gender</th>
+            <th>Whence</th>
+            <th>Etymology</th>
+            <th>Background</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- row 1 -->
+          <tr v-for="(namePair, index) in generatedNamesTable">
+            <!-- {{ console.log(`index = ${index}`) }} -->
+            
+            <!-- Index -->
+            <th>{{ index + 1 }}</th>
+
+            <!-- English Name -->
+            <td v-if="lastNamesUsedOnly">
+              <b>{{ namePair[1].english_name ?? "" }}</b>
+            </td>
+            <td v-else-if="lastNamesUsed">
+              <b>{{ namePair[0].english_name }} {{ namePair[1].english_name ?? "" }}</b>
+            </td>
+            <td v-else>
+              <b>{{ namePair[0].english_name }}</b>
+            </td>
+
+            <!-- Anglish Name -->
+            <td v-if="lastNamesUsedOnly">
+              <b>{{ namePair[1].anglish_name ?? "" }}</b>
+            </td>
+            <td v-else-if="lastNamesUsed">
+              <b>{{ namePair[0].anglish_name }} {{ namePair[1].anglish_name ?? "" }}</b>
+            </td>
+            <td v-else>
+              <b>{{ namePair[0].anglish_name }}</b>
+            </td>
+
+            <!-- Gender -->
+            <td>
+              <p>
+                <span v-if="namePair.length > 0">{{ namePair[0].english_name }}: {{ namePair[0].kind }}</span><br/>
+                <span v-if="namePair.length > 1">{{ namePair[1].english_name }}: {{ namePair[1].kind }}</span>
+              </p>
+            </td>
+
+            <!-- Whence -->
+            <td>
+              <p>
+                <span v-if="namePair.length > 0">{{ namePair[0].whence }}</span><br/>
+                <!-- <span v-if="namePair.length > 1">{{ namePair[1].english_name }}: {{ namePair[1].whence }}</span> -->
+              </p>
+            </td>
+
+            <td>
+              <p v-if="namePair.length > 1">
+                {{ namePair[0].forebear }} ({{ namePair[0].foreword + " + " + namePair[0].afterword }})<br/>
+                {{ namePair[1].forebear }} ({{ namePair[1].foreword + " + " + namePair[1].afterword }})
+              </p>
+              <p v-else-if="namePair.length > 0 && namePair[0].afterword">
+                {{ namePair[0].forebear }} ({{ namePair[0].foreword + " + " + namePair[0].afterword}})
+              </p>
+              <p v-else-if="namePair.length > 0">
+                {{ namePair[0].forebear }} ({{ namePair[0].foreword}})
+              </p>
+            </td>
+
+            <td>
+              <!-- <details class="collapse collapse-arrow bg-base-200">
+                <summary class="collapse-title text-l font-small">{{ namePair[0].english_name }}</summary>
+                <div class="collapse-content"> 
+                  <p>content</p>
+                </div>
+              </details>
+
+              <details class="collapse collapse-arrow bg-base-200 mt-4">
+                <summary class="collapse-title text-l font-small">{{ namePair[1].english_name }}</summary>
+                <div class="collapse-content"> 
+                  <p>content</p>
+                </div>
+              </details> -->
+              <b>{{ namePair[0].english_name }}</b>
+              <p>{{ namePair[0].background }}</p><br/>
+
+              <b>{{ namePair[1].english_name }}</b>
+              <p>{{ namePair[1].background }}</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref } from 'vue';
+import { ref, type ComputedRef, type Ref, computed } from 'vue';
 
 let names: Ref<NamesDict> = ref({});
 let generatedNamesTable: Ref<NameEntry[][]> = ref([]);
@@ -139,6 +200,9 @@ getNames();
 
 let livingNamesUsed: Ref<boolean> = ref(true);
 let lastNamesUsed: Ref<boolean> = ref(true);
+let lastNamesUsedOnly: ComputedRef = computed(() => {
+  return lastNamesUsed && (!livingNamesUsed && !quickenedNamesUsed && !frozenNamesUsed && !unfoundedNamesUsed);
+});
 let quickenedNamesUsed: Ref<boolean> = ref(true);
 let frozenNamesUsed: Ref<boolean> = ref(false);
 let unfoundedNamesUsed: Ref<boolean> = ref(false);
