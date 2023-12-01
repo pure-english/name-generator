@@ -115,29 +115,37 @@
             <!-- Gender -->
             <td>
               <p v-if="showAllGenders">
-                <span v-if="namePair.length > 0">{{ namePair[0].english_name ?? "" }}: {{ namePair[0].kind ?? "" }}</span><br/>
-                <span v-if="namePair.length > 1">{{ namePair[1].english_name ?? "" }}: {{ namePair[1].kind ?? "" }}</span>
+                <span v-if="namePair.length > 0">
+                  {{ namePair[0].english_name ?? "" }}: {{ namePair[0].kind ?? "" }}
+                </span><br/>
+                <span v-if="namePair.length > 1">
+                  {{ namePair[1].english_name ?? "" }}: {{ namePair[1].kind ?? "" }}
+                </span>
               </p>
               <p v-else>
-                <span v-if="namePair.length > 0">{{ namePair[0].kind ?? "" }}</span><br/>
+                <span v-if="namePair.length > 0">
+                  {{ namePair[0].kind ?? "" }}
+                </span><br/>
               </p>
             </td>
 
             <!-- Whence -->
             <td>
               <p>
-                <span v-if="namePair.length > 0">{{ namePair[0].whence ?? "" }}</span><br/>
+                <span v-if="namePair.length > 0">
+                  {{ namePair[0].whence ?? "" }}
+                </span><br/>
                 <!-- <span v-if="namePair.length > 1">{{ namePair[1].english_name }}: {{ namePair[1].whence }}</span> -->
               </p>
             </td>
 
             <td>
               <p v-if="namePair.length > 1">
-                {{ namePair[0].forebear ?? "" }} ({{ namePair[0].foreword ?? "" + " + " + namePair[0].afterword ?? "" }})<br/>
-                {{ namePair[1].forebear ?? "" }} ({{ namePair[1].foreword ?? "" + " + " + namePair[1].afterword ?? "" }})
+                {{ (namePair[0].forebear ?? "") }} ({{ (namePair[0].foreword ?? "") + " + " + (namePair[0].afterword ?? "") }})<br/>
+                {{ (namePair[1].forebear ?? "") }} ({{ (namePair[1].foreword ?? "") + " + " + (namePair[1].afterword ?? "") }})
               </p>
               <p v-else-if="namePair.length > 0 && namePair[0].afterword">
-                {{ namePair[0].forebear ?? "" }} ({{ namePair[0].foreword ?? "" + " + " + namePair[0].afterword ?? "" }})
+                {{ namePair[0].forebear ?? "" }} ({{ (namePair[0].foreword ?? "") + " + " + (namePair[0].afterword ?? "") }})
               </p>
               <p v-else-if="namePair.length > 0">
                 {{ namePair[0].forebear ?? "" }} ({{ namePair[0].foreword ?? "" }})
