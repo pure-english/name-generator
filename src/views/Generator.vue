@@ -74,19 +74,31 @@
             <!-- Index -->
             <th>{{ index + 1 }}</th>
 
-            <!-- English Name -->
+            <!-- English/Anglish Name -->
             <td v-if="lastNamesUsedOnly() && namePair.length > 1">
               <b>{{ namePair[1].english_name ?? "" }}</b><br/>
-              <b>{{ namePair[1].anglish_name ?? "" }}</b>
+              <b v-if="namePair[0].english_name != namePair[0].anglish_name ||
+              namePair[1].english_name != namePair[1].anglish_name">
+                {{ namePair[1].anglish_name ?? "" }}
+              </b>
             </td>
             <td v-else-if="lastNamesUsed && namePair.length > 1">
-              <!-- {{ console.log(`namePair == ${JSON.stringify(namePair)}`) }} -->
-              <b>{{ namePair[0].english_name ?? "" }} {{ namePair[1].english_name ?? "" }}</b><br/>
-              <b>{{ namePair[0].anglish_name ?? "" }} {{ namePair[1].anglish_name ?? "" }}</b>
+              <b>
+                {{ namePair[0].english_name ?? "" }}
+                {{ namePair[1].english_name ?? "" }}
+              </b><br/>
+              <b v-if="namePair[0].english_name != namePair[0].anglish_name ||
+              namePair[1].english_name != namePair[1].anglish_name">
+                {{ namePair[0].anglish_name ?? "" }}
+                {{ namePair[1].anglish_name ?? "" }}
+              </b>
             </td>
             <td v-else-if="namePair.length > 0">
               <b>{{ namePair[0].english_name ?? "" }}</b><br/>
-              <b>{{ namePair[0].anglish_name ?? "" }}</b>
+              <b v-if="namePair[0].english_name != namePair[0].anglish_name ||
+              namePair[1].english_name != namePair[1].anglish_name">
+                {{ namePair[0].anglish_name ?? "" }}
+              </b>
             </td>
 
             <!-- Anglish Name -->
@@ -132,7 +144,8 @@
               </p>
             </td>
 
-            <td style="max-width: 390px;">
+            <td style="max-width: 600px;">
+            <!-- <td> -->
               <!-- <details class="collapse collapse-arrow bg-base-200">
                 <summary class="collapse-title text-l font-small">{{ namePair[0].english_name }}</summary>
                 <div class="collapse-content"> 
@@ -160,7 +173,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type ComputedRef, type Ref, computed } from 'vue';
+import { ref, type Ref } from 'vue';
 
 let names: Ref<NamesDict> = ref({});
 let generatedNamesTable: Ref<NameEntry[][]> = ref([]);
