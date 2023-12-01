@@ -1,8 +1,14 @@
+<!--
+  Be WARNED!
+
+  This is some of the WORST spaghetti code I've ever written. Fuck.
+-->
+
 <template>
   <div class="container mx-auto">
     <div class="prose">
       <h1 class="grow my-5">Anglish Name Generator</h1>
-      <sub class="grow"><center>v1.3.3 (2023-12-01)</center></sub>
+      <sub class="grow"><center>v1.3.4 (2023-12-01)</center></sub>
     </div>
 
     <div class="content-stretch mt-8" style="max-width: 20%; min-width: 265px;">
@@ -80,18 +86,24 @@
               <b>{{ namePair[1].english_name ?? "" }}</b><br/>
               <b v-if="namePair[0].english_name != namePair[0].anglish_name ||
               namePair[1].english_name != namePair[1].anglish_name">
-                {{ namePair[1].anglish_name ?? "" }}
+                <span v-if="namePair[1]">
+                  {{ namePair[1].anglish_name ?? "" }}
+                </span>
               </b>
             </td>
             <td v-else-if="lastNamesUsed && namePair.length > 1">
               <b>
                 {{ namePair[0].english_name ?? "" }}
-                {{ namePair[1].english_name ?? "" }}
+                <span v-if="namePair[1]">
+                  {{ namePair[1].english_name ?? "" }}
+                </span>
               </b><br/>
               <b v-if="namePair[0].english_name != namePair[0].anglish_name ||
               namePair[1].english_name != namePair[1].anglish_name">
                 {{ namePair[0].anglish_name ?? "" }}
-                {{ namePair[1].anglish_name ?? "" }}
+                <span v-if="namePair[1] != undefined">
+                  {{ namePair[1].anglish_name ?? "" }}
+                </span>
               </b>
             </td>
             <td v-else-if="namePair.length > 0">
