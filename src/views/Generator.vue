@@ -42,8 +42,9 @@
         <input type="checkbox" class="checkbox" v-model="unfoundedNamesUsed">
       </label>
 
-      <input type="range" min="0" max="2" value="0" class="range mt-5" step="1" v-model="sex"/>
+      <input type="range" min="0" max="3" value="0" class="range mt-5" step="1" v-model="sex"/>
       <div class="w-full flex justify-between text-xs px-2">
+        <span>Any</span>
         <span>Unisex</span>
         <span>Male</span>
         <span>Female</span>
@@ -77,14 +78,20 @@
         <tr v-for="(namePair, index) in generatedNamesTable">
           <!-- {{ console.log(`index = ${index}`) }} -->
           <th>{{ index + 1 }}</th>
-          <td v-if="lastNamesUsed">
+          <td v-if="lastNamesUsed && (!livingNamesUsed && !quickenedNamesUsed && !frozenNamesUsed && !unfoundedNamesUsed)">
+            {{ namePair[1].english_name }}
+          </td>
+          <td v-else-if="lastNamesUsed">
             {{ namePair[0].english_name }} {{ namePair[1].english_name }}
           </td>
           <td v-else>
             {{ namePair[0].english_name }}
           </td>
 
-          <td v-if="lastNamesUsed">
+          <td v-if="lastNamesUsed && (!livingNamesUsed && !quickenedNamesUsed && !frozenNamesUsed && !unfoundedNamesUsed)">
+            {{ namePair[1].anglish_name }}
+          </td>
+          <td v-else-if="lastNamesUsed">
             {{ namePair[0].anglish_name }} {{ namePair[1].anglish_name }}
           </td>
           <td v-else>
@@ -178,9 +185,11 @@ function generateFirstName(num: number) {
   namesPool = namesPool.filter((name) => {
       if (sex.value == 0) {
         return name;
-      } else if ((name.kind == "Male" || name.kind == "Unisex") && sex.value == 1) {
+      } else if (name.kind == "Unisex" && sex.value == 1) {
         return name;
-      } else if ((name.kind == "Female" || name.kind == "Unisex") && sex.value == 2) {
+      } else if ((name.kind == "Male" || name.kind == "Unisex") && sex.value == 2) {  // Male
+        return name;
+      } else if ((name.kind == "Female" || name.kind == "Unisex") && sex.value == 3) { // Female
         return name;
       }
       // else {
