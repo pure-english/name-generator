@@ -1,5 +1,9 @@
 name: Build Vue
 on: [push]
+permissions:
+  actions: write
+  pages: write
+  contents: write
 jobs:
   build_vue:
     runs-on: ubuntu-latest
