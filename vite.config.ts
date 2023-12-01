@@ -13,5 +13,5 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  base: "/name-generator/",
+  base: "https://pure-english.github.io/name-generator/",
 })
