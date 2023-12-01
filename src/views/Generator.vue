@@ -99,7 +99,7 @@
                 </span>
               </b><br/>
               <b v-if="namePair[0].english_name != namePair[0].anglish_name ||
-              namePair[1].english_name != namePair[1].anglish_name">
+              (namePair[1] && namePair[1].english_name != namePair[1].anglish_name)">
                 {{ namePair[0].anglish_name ?? "" }}
                 <span v-if="namePair[1] != undefined">
                   {{ namePair[1].anglish_name ?? "" }}
