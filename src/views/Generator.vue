@@ -150,7 +150,7 @@ function generateFirstName(num: number) {
   let namesPool: Array<NameEntry> = [];
   
   if (livingNamesUsed.value) {
-    console.log("Living names used!");
+    // console.log("Living names used!");
     namesPool = [
       ...names.value["Living"],
       ...namesPool,
@@ -158,7 +158,7 @@ function generateFirstName(num: number) {
   }
 
   if (quickenedNamesUsed.value) {
-    console.log("Quickened names used!");
+    // console.log("Quickened names used!");
     namesPool = [
       ...names.value["Quickened"],
       ...namesPool,
@@ -166,7 +166,7 @@ function generateFirstName(num: number) {
   }
 
   if (frozenNamesUsed.value) {
-    console.log("Frozen names used!");
+    // console.log("Frozen names used!");
     namesPool = [
       ...names.value["Frozen"],
       ...namesPool,
@@ -174,7 +174,7 @@ function generateFirstName(num: number) {
   }
 
   if (unfoundedNamesUsed.value) {
-    console.log("Unfounded names used!");
+    // console.log("Unfounded names used!");
     namesPool = [
       ...names.value["Unfounded"],
       ...namesPool,
