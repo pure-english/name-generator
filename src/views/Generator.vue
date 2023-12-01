@@ -102,9 +102,12 @@
 
             <!-- Gender -->
             <td>
-              <p>
+              <p v-if="showAllGenders">
                 <span v-if="namePair.length > 0">{{ namePair[0].english_name ?? "" }}: {{ namePair[0].kind ?? "" }}</span><br/>
                 <span v-if="namePair.length > 1">{{ namePair[1].english_name ?? "" }}: {{ namePair[1].kind ?? "" }}</span>
+              </p>
+              <p v-else>
+                <span v-if="namePair.length > 0">{{ namePair[0].kind ?? "" }}</span><br/>
               </p>
             </td>
 
@@ -194,6 +197,8 @@ let lastNamesUsed: Ref<boolean> = ref(true);
 let quickenedNamesUsed: Ref<boolean> = ref(true);
 let frozenNamesUsed: Ref<boolean> = ref(false);
 let unfoundedNamesUsed: Ref<boolean> = ref(false);
+
+let showAllGenders: Ref<boolean> = ref(false);
 
 // let lastNamesUsedOnly: ComputedRef<boolean> = computed(() => {
 //   return lastNamesUsed && (!livingNamesUsed && !quickenedNamesUsed && !frozenNamesUsed && !unfoundedNamesUsed);
