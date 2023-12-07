@@ -8,7 +8,7 @@
   <div class="container mx-auto">
     <div class="prose">
       <h1 class="grow my-5">Anglish Name Generator</h1>
-      <sub class="grow"><center>v1.3.6 (2023-12-01)</center></sub>
+      <sub class="grow"><center>v1.4.0 (2023-12-08)</center></sub>
     </div>
 
     <div class="content-stretch mt-8" style="max-width: 20%; min-width: 265px;">
@@ -304,6 +304,9 @@ function generateFirstName(num: number) {
   });
 
   let generatedNames: Array<NameEntry> = [];
+
+  // Obscure bug where sometimes frozen and unfounded words will be glitched
+  // console.log(`namesPool length = ${namesPool.length}`);
 
   for (let i = 0; i < num; i++) {
     let name = namesPool[(Math.floor(Math.random() * namesPool.length))];
