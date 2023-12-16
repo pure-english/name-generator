@@ -41,7 +41,9 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Move items to dist
-        run: cp anglish_given_names.json ./dist/
+        run: |
+          cp anglish_given_names.json ./dist/
+          cp anglo-norse_given_names.json ./dist/
       - name: Build CSS
         run: npx tailwindcss -i ./src/input.css -o ./dist/output.css
       - name: Upload artifact
