@@ -8,34 +8,49 @@
   <div class="container mx-auto">
     <div class="prose">
       <h1 class="grow my-5">Anglish Name Generator</h1>
-      <sub class="grow"><center>v1.4.1 (2023-12-08)</center></sub>
+      <sub class="grow"><center>v1.5.0 (2023-12-16)</center></sub>
     </div>
 
     <div class="content-stretch mt-8" style="max-width: 20%; min-width: 265px;">
       <form>
         <label class="label cursor-pointer">
-          <span class="label-text">Living names (215)</span>
+          <span class="label-text">Living names (218)</span>
           <input type="checkbox" class="checkbox" v-model="livingNamesUsed">
         </label>
 
         <label class="label cursor-pointer">
-          <span class="label-text">Last names (599)</span>
+          <span class="label-text">Last names (617)</span>
           <input type="checkbox" class="checkbox" v-model="lastNamesUsed">
         </label>
 
         <label class="label cursor-pointer">
-          <span class="label-text">Quickened/Revived names (2059)</span>
+          <span class="label-text">Quickened/Revived names (2081)</span>
           <input type="checkbox" class="checkbox" v-model="quickenedNamesUsed">
         </label>
 
         <label class="label cursor-pointer">
-          <span class="label-text">Frozen/Old English names (11)</span>
+          <span class="label-text">Frozen/Old English names (12)</span>
           <input type="checkbox" class="checkbox" v-model="frozenNamesUsed">
         </label>
 
         <label class="label cursor-pointer">
           <span class="label-text">Unfounded/Germanic names (59)</span>
           <input type="checkbox" class="checkbox" v-model="unfoundedNamesUsed">
+        </label>
+
+        <label class="label cursor-pointer">
+          <span class="label-text">Anglo-Norse Living names (4)</span>
+          <input type="checkbox" class="checkbox" v-model="angloNorseLivingNamesUsed">
+        </label>
+
+        <label class="label cursor-pointer">
+          <span class="label-text">Anglo-Norse Last Names (14)</span>
+          <input type="checkbox" class="checkbox" v-model="angloNorseLastNamesUsed">
+        </label>
+
+        <label class="label cursor-pointer">
+          <span class="label-text">Anglo-Norse Quickened/Revived names (44)</span>
+          <input type="checkbox" class="checkbox" v-model="angloNorseQuickenedNamesUsed">
         </label>
 
         <input type="range" min="0" max="3" value="0" class="range mt-5" step="1" v-model="sex"/>
@@ -66,7 +81,6 @@
           <tr>
             <th></th>
             <th>Name (English/Anglish)</th>
-            <!-- <th>Anglish Name</th> -->
             <th>Gender</th>
             <th>Whence</th>
             <th>Etymology</th>
@@ -91,7 +105,7 @@
                 </span>
               </b>
             </td>
-            <td v-else-if="lastNamesUsed && namePair.length > 1">
+            <td v-else-if="(lastNamesUsed || angloNorseLastNamesUsed) && namePair.length > 1">
               <b>
                 {{ namePair[0].english_name ?? "" }}
                 <span v-if="namePair[1]">
@@ -112,17 +126,6 @@
                 {{ namePair[0].anglish_name ?? "" }}
               </b>
             </td>
-
-            <!-- Anglish Name -->
-            <!-- <td v-if="lastNamesUsedOnly() && namePair.length > 1">
-              <b>{{ namePair[1].anglish_name ?? "" }}</b>
-            </td>
-            <td v-else-if="lastNamesUsed && namePair.length > 1">
-              <b>{{ namePair[0].anglish_name ?? "" }} {{ namePair[1].anglish_name ?? "" }}</b>
-            </td>
-            <td v-else-if="namePair.length > 0">
-              <b>{{ namePair[0].anglish_name ?? "" }}</b>
-            </td> -->
 
             <!-- Gender -->
             <td>
@@ -151,46 +154,52 @@
               </p>
             </td>
 
+            <!-- Etymology -->
             <td>
-              <p v-if="namePair.length > 1">
-                <!-- {{ console.log(`namePair = ${JSON.stringify(namePair)}`) }} -->
-                <!-- 
-                  namePair =
-                  [{ENTRY},null]
-                -->
-                {{ (namePair[0].forebear ?? "") }} ({{ (namePair[0].foreword ?? "") + " + " + (namePair[0].afterword ?? "") }})<br/>
-                <span v-if="namePair[1] != null">
-                  {{ (namePair[1].forebear ?? "") }} ({{ (namePair[1].foreword ?? "") + " + " + (namePair[1].afterword ?? "") }})
+              <span v-if="namePair[0].forebear">
+                {{ namePair[0].forebear }}
+              </span>
+
+              <span v-if="namePair[0].foreword || namePair[0].afterword">
+                (<span v-if="namePair[0].foreword">
+                  {{ namePair[0].foreword }}
                 </span>
-              </p>
-              <p v-else-if="namePair.length > 0 && namePair[0].afterword">
-                {{ namePair[0].forebear ?? "" }} ({{ (namePair[0].foreword ?? "") + " + " + (namePair[0].afterword ?? "") }})
-              </p>
-              <p v-else-if="namePair.length > 0">
-                {{ namePair[0].forebear ?? "" }} ({{ namePair[0].foreword ?? "" }})
-              </p>
+                <span v-if="namePair[0].foreword && namePair[0].afterword">
+                  <span> + </span>
+                </span>
+                <span v-if="namePair[0].afterword">
+                  {{ namePair[0].afterword }}
+                </span>)
+              </span>
+
+              <br v-if="namePair[0] && namePair[1]"/>
+
+              <span v-if="namePair[1].forebear">
+                {{ namePair[1].forebear }}
+              </span>
+
+              <span v-if="namePair[1].foreword || namePair[1].afterword">
+                (<span v-if="namePair[1].foreword">
+                  {{ namePair[1].foreword }}
+                </span>
+                <span v-if="namePair[1].foreword && namePair[1].afterword">
+                  <span> + </span>
+                </span>
+                <span v-if="namePair[1].afterword">
+                  {{ namePair[1].afterword }}
+                </span>)
+              </span>
             </td>
 
+            <!-- Background -->
             <td style="max-width: 600px;">
-            <!-- <td> -->
-              <!-- <details class="collapse collapse-arrow bg-base-200">
-                <summary class="collapse-title text-l font-small">{{ namePair[0].english_name }}</summary>
-                <div class="collapse-content"> 
-                  <p>content</p>
-                </div>
-              </details>
+              <b v-if="namePair[0].background">{{ namePair[0].english_name }}</b>
+              <p v-if="namePair[0].background">{{ namePair[0].background }}</p>
 
-              <details class="collapse collapse-arrow bg-base-200 mt-4">
-                <summary class="collapse-title text-l font-small">{{ namePair[1].english_name }}</summary>
-                <div class="collapse-content"> 
-                  <p>content</p>
-                </div>
-              </details> -->
-              <b>{{ namePair[0].english_name ?? "" }}</b>
-              <p>{{ namePair[0].background ?? "" }}</p><br/>
+              <br v-if="namePair[0].background"/>
 
-              <b v-if="namePair[1]">{{ namePair[1].english_name ?? "" }}</b>
-              <p v-if="namePair[1]">{{ namePair[1].background ?? "" }}</p>
+              <b v-if="namePair[1].background">{{ namePair[1].english_name }}</b>
+              <p v-if="namePair[1].background">{{ namePair[1].background }}</p>
             </td>
           </tr>
         </tbody>
@@ -202,7 +211,8 @@
 <script setup lang="ts">
 import { ref, type Ref } from 'vue';
 
-let names: Ref<NamesDict> = ref({});
+let anglishNames: Ref<NamesDict> = ref({});
+let norseNames: Ref<NamesDict> = ref({});
 let generatedNamesTable: Ref<NameEntry[][]> = ref([]);
 let generatedBefore: Ref<boolean> = ref(false);
 
@@ -224,8 +234,14 @@ interface NamesDict {
 async function getNames() {
   const res = await fetch("/name-generator/anglish_given_names.json");
   await res.json().then((data: NamesDict) => {
-    names.value = data;
+    anglishNames.value = data;
     console.log("Loaded names!");
+  });
+
+  const res2 = await fetch("/name-generator/anglo-norse_given_names.json");
+  await res2.json().then((data: NamesDict) => {
+    norseNames.value = data;
+    console.log("Loaded Norse names!");
   });
 }
 
@@ -238,6 +254,10 @@ let lastNamesUsed: Ref<boolean> = ref(true);
 let quickenedNamesUsed: Ref<boolean> = ref(true);
 let frozenNamesUsed: Ref<boolean> = ref(false);
 let unfoundedNamesUsed: Ref<boolean> = ref(false);
+// Norse
+let angloNorseLivingNamesUsed: Ref<boolean> = ref(false);
+let angloNorseLastNamesUsed: Ref<boolean> = ref(false);
+let angloNorseQuickenedNamesUsed: Ref<boolean> = ref(false);
 
 let showAllGenders: Ref<boolean> = ref(false);
 
@@ -258,7 +278,7 @@ function generateFirstName(num: number) {
   if (livingNamesUsed.value) {
     // console.log("Living names used!");
     namesPool = [
-      ...names.value["Living"],
+      ...anglishNames.value["Living"],
       ...namesPool,
     ]
   }
@@ -266,7 +286,7 @@ function generateFirstName(num: number) {
   if (quickenedNamesUsed.value) {
     // console.log("Quickened names used!");
     namesPool = [
-      ...names.value["Quickened"],
+      ...anglishNames.value["Quickened"],
       ...namesPool,
     ]
   }
@@ -274,7 +294,7 @@ function generateFirstName(num: number) {
   if (frozenNamesUsed.value) {
     // console.log("Frozen names used!");
     namesPool = [
-      ...names.value["Frozen"],
+      ...anglishNames.value["Frozen"],
       ...namesPool,
     ]
   }
@@ -282,7 +302,28 @@ function generateFirstName(num: number) {
   if (unfoundedNamesUsed.value) {
     // console.log("Unfounded names used!");
     namesPool = [
-      ...names.value["Unfounded"],
+      ...anglishNames.value["Unfounded"],
+      ...namesPool,
+    ]
+  }
+
+  if (angloNorseLivingNamesUsed.value) {
+    namesPool = [
+      ...norseNames.value["Living"],
+      ...namesPool,
+    ]
+  }
+
+  // if (angloNorseLastNamesUsed.value) {
+  //   namesPool = [
+  //     ...norseNames.value["Lastname"],
+  //     ...namesPool,
+  //   ]
+  // }
+
+  if (angloNorseQuickenedNamesUsed.value) {
+    namesPool = [
+      ...norseNames.value["Quickened"],
       ...namesPool,
     ]
   }
@@ -331,11 +372,28 @@ function generateFirstName(num: number) {
 }
 
 function generateLastName(num: number) {
-  if (!lastNamesUsed.value) {
+  if (!lastNamesUsed.value && !angloNorseLastNamesUsed.value) {
     return [];
   }
 
-  let namesPool = names.value["Lastname"];
+  let namesPool: Array<NameEntry> = [];
+
+  if (lastNamesUsed.value) {
+    namesPool = [
+      ...anglishNames.value["Lastname"],
+    ];
+    // console.log(`namesPool = ${JSON.stringify(namesPool)}`);
+  }
+
+  if (angloNorseLastNamesUsed.value) {
+    // console.log(`norseNames.value[Lastname] = ${JSON.stringify(norseNames.value["Lastname"])}`)
+
+    namesPool = [
+      ...norseNames.value["Lastname"],
+      ...namesPool,
+    ]
+    // console.log(`namesPool = ${JSON.stringify(namesPool)}`);
+  }
 
   let generatedNames: Array<NameEntry> = [];
 
@@ -344,6 +402,8 @@ function generateLastName(num: number) {
       namesPool[(Math.floor(Math.random() * namesPool.length))]
     );
   }
+
+  console.log(`generatedNames = ${JSON.stringify(generatedNames)}`);
 
   return generatedNames;
 }
